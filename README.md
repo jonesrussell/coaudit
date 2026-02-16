@@ -191,6 +191,125 @@ This project showcases Copilot CLI's strength in agentic workflows:
 - **Composability** – Chain multiple audits without writing static analyzers
 - **Extensibility** – Add new audit dimensions just by adding prompt files
 
+## 🚀 Future Enhancements
+
+### Phase 1: Core Improvements
+- [ ] **Real Copilot CLI API Integration** – Programmatic API when available
+  - Batch audit processing without manual intervention
+  - Structured JSON output parsing from Copilot responses
+  - Severity levels (critical/high/medium/low) with risk scoring
+  - Response caching to avoid duplicate analyses
+
+- [ ] **Configuration File Support** – Full `.copilot-audit.json` integration
+  - Enable/disable specific audit dimensions
+  - Custom file extensions per project type
+  - Context size limits per dimension
+  - Custom exclude patterns (.gitignore respect)
+
+- [ ] **Enhanced Reporting**
+  - HTML report viewer with interactive filtering
+  - JSON export for machine processing
+  - CSV export for spreadsheet analysis
+  - Risk score calculation and trend analysis
+  - Summary charts and visualizations
+
+### Phase 2: Integration & Scale
+- [ ] **GitHub Integration**
+  - Direct GitHub repo auditing (no clone needed)
+  - PR audit comments with findings
+  - GitHub Actions workflow template
+  - Auto-create issues from audit findings
+  - Branch comparison audits
+
+- [ ] **Performance Optimizations**
+  - Parallel dimension audits (6x speedup potential)
+  - Incremental audits (only changed files)
+  - Intelligent file chunking for large repos
+  - Caching system with invalidation
+  - Progress indicators for long-running audits
+
+- [ ] **Testing & Quality**
+  - Comprehensive test suite (vitest/jest)
+  - Integration tests on real open-source repos
+  - Performance benchmarks
+  - CI/CD pipeline with GitHub Actions
+
+### Phase 3: Advanced Features
+- [ ] **Smart Analysis**
+  - Project type auto-detection (Node, Python, Java, Go, etc.)
+  - Language-specific audit dimensions
+  - Dependency graph analysis
+  - Code complexity metrics
+  - Security vulnerability scanning
+
+- [ ] **Customization & Extensibility**
+  - Custom audit dimension plugin system
+  - Custom prompt templates per organization
+  - Rule severity customization
+  - Team/project-specific configurations
+  - Audit history and trend tracking
+
+- [ ] **Collaboration Features**
+  - Team audit result sharing
+  - Audit result comparison (before/after)
+  - Collaborative audit insights dashboard
+  - Audit history and timeline
+  - Integration with code review tools
+
+### Phase 4: Enterprise Features
+- [ ] **Advanced Reporting**
+  - Executive summary dashboard
+  - Team analytics and trending
+  - Audit score trends over time
+  - Custom report templates
+  - Scheduled automated audits
+
+- [ ] **Integration Ecosystem**
+  - Slack notifications
+  - Webhook integrations
+  - Jira issue creation
+  - Azure DevOps integration
+  - GitLab CI/CD support
+
+- [ ] **Security & Compliance**
+  - GDPR-compliant data handling
+  - Secrets detection (prevent credential leaks)
+  - Compliance rule sets (SOC2, HIPAA, etc.)
+  - Audit log tracking
+  - Role-based access control
+
+### Community & Open Source
+- [ ] **Community Contributions**
+  - Contributing guidelines (CONTRIBUTING.md)
+  - Issue templates (bugs, features, discussions)
+  - Pull request template
+  - Code of conduct
+  - Community audit dimension library
+
+- [ ] **Documentation Expansion**
+  - Video tutorials
+  - Blog posts on audit best practices
+  - Integration guides
+  - Best practices guide
+  - Troubleshooting guide
+  - API documentation (when real API available)
+
+- [ ] **Package Distribution**
+  - NPM package publishing
+  - Homebrew formula
+  - Docker image
+  - GitHub releases with changelogs
+  - Version management strategy
+
+## How to Contribute
+
+Interested in helping? Check out the [DEVELOPMENT.md](./DEVELOPMENT.md) guide for:
+- Architecture overview
+- How to add custom audit dimensions
+- Extension points
+- Testing strategy
+- Performance considerations
+
 ## License
 
 MIT
