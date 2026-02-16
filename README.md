@@ -1,6 +1,6 @@
-# Copilot Pipeline Auditor
+# coaudit
 
-A CLI tool that performs intelligent, Copilot-assisted audits of any codebase.
+Copilot-powered code audits. Analyze any codebase across 6 dimensions: dead code, architectural leaks, selector fragility, routing inconsistencies, missing tests, and observability gaps.
 
 ## Overview
 
@@ -18,20 +18,20 @@ Each audit dimension is powered by a curated prompt file that feeds context + co
 ## Project Structure
 
 ```
-copilot-pipeline-auditor/
+coaudit/
 ├── bin/
-│   ├── audit              # Batch audit runner (generates report)
-│   └── audit-interactive  # Interactive audit helper
+│   ├── coaudit              # Batch audit runner (generates report)
+│   └── coaudit-interactive  # Interactive audit helper
 ├── src/
-│   ├── prompts/           # Audit dimension prompts
+│   ├── prompts/             # Audit dimension prompts
 │   │   ├── dead_code.md
 │   │   ├── architectural_leaks.md
 │   │   ├── selector_fragility.md
 │   │   ├── routing_inconsistencies.md
 │   │   ├── missing_tests.md
 │   │   └── observability_gaps.md
-│   ├── runner.js          # Orchestrates audits
-│   └── report.js          # Generates audit reports
+│   ├── runner.js            # Orchestrates audits
+│   └── report.js            # Generates audit reports
 ├── package.json
 └── README.md
 ```
@@ -45,16 +45,13 @@ copilot-pipeline-auditor/
 npm install
 
 # Audit ANY GitHub repository directly
-npx audit jonesrussell/copilot-pipeline-auditor
+coaudit jonesrussell/coaudit
 
 # Or use full HTTPS URL
-npx audit https://github.com/jonesrussell/copilot-pipeline-auditor
+coaudit https://github.com/jonesrussell/coaudit
 
 # Audit local project
-npx audit ~/my-project
-
-# Example:
-npx audit ~/my-project
+coaudit ~/my-project
 ```
 
 **That's it!** The tool will:
@@ -63,25 +60,17 @@ npx audit ~/my-project
 3. Generate a Markdown report
 4. Clean up automatically
 
-This generates a Markdown report summarizing all six audit dimensions.
-
 ### Run an Interactive Audit (Copilot CLI)
 
 For detailed analysis using Copilot CLI directly:
 
 ```bash
 # Show available audit dimensions
-npx audit-interactive ~/my-project
+coaudit-interactive ~/my-project
 
 # Or with GitHub URL
-npx audit-interactive jonesrussell/copilot-pipeline-auditor
+coaudit-interactive jonesrussell/coaudit
 ```
-
-This launches Copilot CLI with pre-loaded audit prompts and code context, letting you:
-- Ask follow-up questions
-- Refine the analysis
-- Get structured recommendations
-- Save findings directly
 
 ## Architecture
 
@@ -324,3 +313,7 @@ Interested in helping? Check out the [DEVELOPMENT.md](./DEVELOPMENT.md) guide fo
 ## License
 
 MIT
+
+---
+
+Made with ❤️ for better code audits powered by Copilot
