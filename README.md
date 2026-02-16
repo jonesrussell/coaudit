@@ -41,15 +41,27 @@ copilot-pipeline-auditor/
 ### Run a Batch Audit (generates report)
 
 ```bash
-# Install dependencies
+# Install dependencies (none required for MVP!)
 npm install
 
-# Run audit on any repository
-npx audit /path/to/repo
+# Audit ANY GitHub repository directly
+npx audit jonesrussell/copilot-pipeline-auditor
+
+# Or use full HTTPS URL
+npx audit https://github.com/jonesrussell/copilot-pipeline-auditor
+
+# Audit local project
+npx audit ~/my-project
 
 # Example:
 npx audit ~/my-project
 ```
+
+**That's it!** The tool will:
+1. Clone the repo (if GitHub URL) to a temp directory
+2. Scan all code files
+3. Generate a Markdown report
+4. Clean up automatically
 
 This generates a Markdown report summarizing all six audit dimensions.
 
@@ -59,10 +71,10 @@ For detailed analysis using Copilot CLI directly:
 
 ```bash
 # Show available audit dimensions
-npx audit-interactive /path/to/repo
+npx audit-interactive ~/my-project
 
-# Run a specific audit dimension interactively
-npx audit-interactive /path/to/repo dead_code
+# Or with GitHub URL
+npx audit-interactive jonesrussell/copilot-pipeline-auditor
 ```
 
 This launches Copilot CLI with pre-loaded audit prompts and code context, letting you:
@@ -73,11 +85,13 @@ This launches Copilot CLI with pre-loaded audit prompts and code context, lettin
 
 ## Architecture
 
-The tool works in three phases:
+The tool works in several phases:
 
-1. **Collection** – Gather relevant files from the target codebase
-2. **Prompting** – Load audit dimension prompts, chunk code context
-3. **Reporting** – Generate structured Markdown audit report
+1. **Input Handling** – Accept GitHub URLs or local paths
+2. **Cloning** – Auto-clone GitHub repos to temp directory (if needed)
+3. **Collection** – Gather relevant files from the target codebase
+4. **Prompting** – Load audit dimension prompts, chunk code context
+5. **Reporting** – Generate structured Markdown audit report
 
 For real-time analysis with Copilot CLI, the interactive mode feeds prompts + context directly.
 
