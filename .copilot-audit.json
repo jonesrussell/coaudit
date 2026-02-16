@@ -1,0 +1,43 @@
+{
+  "audit": {
+    "enabled": [
+      "dead_code",
+      "architectural_leaks",
+      "selector_fragility",
+      "routing_inconsistencies",
+      "missing_tests",
+      "observability_gaps"
+    ],
+    "contextLimit": 50000,
+    "fileExtensions": [
+      ".js",
+      ".ts",
+      ".tsx",
+      ".jsx",
+      ".py",
+      ".php",
+      ".go",
+      ".java",
+      ".rs"
+    ],
+    "excludeDirs": [
+      "node_modules",
+      "dist",
+      "build",
+      ".git",
+      ".copilot"
+    ]
+  },
+  "copilot": {
+    "model": "gpt-4",
+    "temperature": 0.7,
+    "maxTokens": 2000,
+    "timeout": 30000
+  },
+  "report": {
+    "format": "markdown",
+    "includeRawOutput": false,
+    "severityLevels": true,
+    "outputDir": "."
+  }
+}
