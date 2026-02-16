@@ -161,37 +161,14 @@ node bin/audit ~/path/to/repo
 
 ## Roadmap
 
-### V1 (Current)
+### MVP (Current - ✅ Complete)
 - [x] CLI entrypoint with batch runner
 - [x] All 6 audit dimension prompts
 - [x] File context collection
 - [x] Markdown report generation
 - [x] Interactive helper script
-
-### V2
-- [ ] Real Copilot CLI integration (when API/SDK available)
-- [ ] Structured JSON output parsing
-- [ ] Severity levels and prioritization
-- [ ] GitHub integration (audit PRs directly)
-
-### V3+
-- [ ] Caching & incremental audits
-- [ ] Custom rule configuration
-- [ ] Before/after comparison
-- [ ] Browser-based report viewer
-- [ ] Auto-fix suggestions
-
-## How Copilot CLI Powers This
-
-This project showcases Copilot CLI's strength in agentic workflows:
-
-- **Prompts as Code** – Audit rules live in markdown, easy to version & modify
-- **Context Windows** – Feed relevant code chunks to Copilot for focused analysis
-- **Structured Output** – Parse Copilot's responses into reports
-- **Composability** – Chain multiple audits without writing static analyzers
-- **Extensibility** – Add new audit dimensions just by adding prompt files
-
-## 🚀 Future Enhancements
+- [x] Development guide
+- [x] GitHub repository
 
 ### Phase 1: Core Improvements
 - [ ] **Real Copilot CLI API Integration** – Programmatic API when available
@@ -300,6 +277,26 @@ This project showcases Copilot CLI's strength in agentic workflows:
   - Docker image
   - GitHub releases with changelogs
   - Version management strategy
+
+## How Copilot CLI Powers This
+
+This project showcases Copilot CLI's strength in agentic workflows:
+
+- **Prompts as Code** – Audit rules live in markdown, easy to version & modify
+- **Context Windows** – Feed relevant code chunks to Copilot for focused analysis
+- **Structured Output** – Parse Copilot's responses into reports
+- **Composability** – Chain multiple audits without writing static analyzers
+- **Extensibility** – Add new audit dimensions just by adding prompt files
+
+## How Copilot CLI Powers This
+
+This project showcases Copilot CLI's strength in agentic workflows:
+
+- **Prompts as Code** – Audit rules live in markdown, easy to version & modify
+- **Context Windows** – Feed relevant code chunks to Copilot for focused analysis
+- **Structured Output** – Parse Copilot's responses into reports
+- **Composability** – Chain multiple audits without writing static analyzers
+- **Extensibility** – Add new audit dimensions just by adding prompt files
 
 ## How to Contribute
 
