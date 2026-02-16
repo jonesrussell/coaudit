@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
 import { generateReport } from './report.js';
+import os from 'node:os';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -15,42 +16,83 @@ const AUDIT_DIMENSIONS = [
   'observability_gaps',
 ];
 
-export async function runAudit(targetDir) {
-  console.log(`🔍 Auditing: ${targetDir}\n`);
+function isGitHubUrl(str) {
+  return str.startsWith('http://github.com/') || 
+         str.startsWith('https://github.com/') ||
+         str.match(/^[a-z0-9-]+\/[a-z0-9-_.]+$/i);
+}
 
-  if (!fs.existsSync(targetDir)) {
-    throw new Error(`Directory not found: ${targetDir}`);
-  }
-
-  const results = {};
-
-  for (const audit of AUDIT_DIMENSIONS) {
-    console.log(`📋 Running ${audit} audit...`);
+function cloneGitHubRepo(repoUrl) {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'copilot-audit-'));
+  
+  try {
+    const gitUrl = repoUrl.startsWith('http') 
+      ? repoUrl 
+      : `https://github.com/${repoUrl}.git`;
     
-    try {
-      const prompt = loadPrompt(audit);
-      const context = collectContext(targetDir, audit);
-      
-      if (!context) {
-        console.warn(`  ⚠️  No relevant files found (skipping)`);
-        results[audit] = { status: 'skipped', reason: 'no context' };
-        continue;
-      }
+    console.log(`📥 Cloning repository...\n`);
+    execSync(`git clone --depth 1 ${gitUrl} "${tempDir}"`, { 
+      stdio: 'pipe',
+      encoding: 'utf8',
+    });
+    
+    return tempDir;
+  } catch (err) {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+    throw new Error(`Failed to clone repository: ${err.message}`);
+  }
+}
 
-      const output = await runCopilot(prompt, context, targetDir);
-      results[audit] = normalize(output, audit);
-      console.log(`  ✓ ${audit} audit complete`);
-    } catch (err) {
-      console.error(`  ✗ Error in ${audit}:`, err.message);
-      results[audit] = { status: 'error', error: err.message };
+export async function runAudit(targetDir) {
+  let repoPath = targetDir;
+  let tempDir = null;
+  
+  try {
+    if (isGitHubUrl(targetDir)) {
+      tempDir = cloneGitHubRepo(targetDir);
+      repoPath = tempDir;
+    }
+    
+    console.log(`🔍 Auditing: ${targetDir}\n`);
+
+    if (!fs.existsSync(repoPath)) {
+      throw new Error(`Directory not found: ${repoPath}`);
+    }
+
+    const results = {};
+
+    for (const audit of AUDIT_DIMENSIONS) {
+      console.log(`📋 Running ${audit} audit...`);
+      
+      try {
+        const prompt = loadPrompt(audit);
+        const context = collectContext(repoPath, audit);
+        
+        if (!context) {
+          console.warn(`  ⚠️  No relevant files found (skipping)`);
+          results[audit] = { status: 'skipped', reason: 'no context' };
+          continue;
+        }
+
+        const output = await runCopilot(prompt, context, repoPath);
+        results[audit] = normalize(output, audit);
+        console.log(`  ✓ ${audit} audit complete`);
+      } catch (err) {
+        console.error(`  ✗ Error in ${audit}:`, err.message);
+        results[audit] = { status: 'error', error: err.message };
+      }
+    }
+
+    const report = generateReport(results, targetDir);
+    console.log('\n📄 Audit Report:\n');
+    console.log(report);
+
+    return { results, report };
+  } finally {
+    if (tempDir && fs.existsSync(tempDir)) {
+      fs.rmSync(tempDir, { recursive: true, force: true });
     }
   }
-
-  const report = generateReport(results, targetDir);
-  console.log('\n📄 Audit Report:\n');
-  console.log(report);
-
-  return { results, report };
 }
 
 function loadPrompt(dimension) {
