@@ -1,0 +1,18 @@
+{
+  "name": "copilot-pipeline-auditor",
+  "version": "0.1.0",
+  "description": "CLI tool that performs Copilot-assisted audits of any codebase",
+  "type": "module",
+  "main": "src/runner.js",
+  "bin": {
+    "audit": "bin/audit"
+  },
+  "scripts": {
+    "start": "node src/runner.js",
+    "test": "echo 'Tests coming soon'"
+  },
+  "keywords": ["copilot", "audit", "cli", "code-quality"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {}
+}
