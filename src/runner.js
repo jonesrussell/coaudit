@@ -104,33 +104,25 @@ function loadPrompt(dimension) {
 }
 
 async function runCopilot(prompt, context, targetDir) {
-  // Create a temporary context file for Copilot to reference
-  const contextFile = path.join(targetDir, '.copilot-audit-context.md');
   const fullPrompt = `${prompt}\n\n## Code Context\n\n${context}`;
-
+  
   try {
-    fs.writeFileSync(contextFile, fullPrompt, 'utf8');
-    
-    // Use Copilot CLI in interactive mode with the context
-    // For automation, we simulate a response based on the prompt structure
-    const mockResponse = generateMockResponse(prompt);
-    
-    return mockResponse;
-  } finally {
-    try {
-      if (fs.existsSync(contextFile)) {
-        fs.unlinkSync(contextFile);
+    // Use Copilot CLI in non-interactive mode with access to target directory
+    const output = execSync(
+      `copilot -p '${fullPrompt.replace(/'/g, "'\\''")}' --allow-all --add-dir '${targetDir}'`,
+      {
+        encoding: 'utf8',
+        stdio: ['pipe', 'pipe', 'pipe'],
+        shell: '/bin/bash',
+        maxBuffer: 10 * 1024 * 1024, // 10MB buffer for large responses
+        timeout: 180000, // 3 minutes timeout
       }
-    } catch (e) {
-      // Ignore cleanup errors
-    }
+    );
+    
+    return output;
+  } catch (err) {
+    throw new Error(`Copilot CLI error: ${err.message}`);
   }
-}
-
-function generateMockResponse(prompt) {
-  // This is a placeholder that shows how Copilot output would be processed
-  // In a real scenario, this would parse actual Copilot CLI output
-  return `[Mock Analysis]\n\nBased on the audit prompt:\n${prompt.substring(0, 100)}...\n\nNote: To see real Copilot analysis, run:\ncopilot "Analyze the codebase for ${prompt.split('Audit Prompt')[0].trim().toLowerCase()} issues"`;
 }
 
 function collectContext(targetDir, audit) {
