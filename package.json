@@ -1,18 +1,19 @@
 {
-  "name": "copilot-pipeline-auditor",
+  "name": "coaudit",
   "version": "0.1.0",
-  "description": "CLI tool that performs Copilot-assisted audits of any codebase",
+  "description": "Copilot-powered code audits. Analyze any codebase across 6 dimensions: dead code, architectural leaks, selector fragility, routing inconsistencies, missing tests, and observability gaps.",
   "type": "module",
   "main": "src/runner.js",
   "bin": {
-    "audit": "bin/audit"
+    "coaudit": "bin/coaudit"
   },
   "scripts": {
     "start": "node src/runner.js",
     "test": "echo 'Tests coming soon'"
   },
-  "keywords": ["copilot", "audit", "cli", "code-quality"],
+  "keywords": ["copilot", "audit", "cli", "code-quality", "code-analysis"],
   "author": "",
   "license": "MIT",
   "dependencies": {}
 }
+

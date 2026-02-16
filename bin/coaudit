@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+import { runAudit } from '../src/runner.js';
+
+const targetDir = process.argv[2];
+
+if (!targetDir) {
+  console.error('Usage: coaudit <path-to-repo-or-github-url>');
+  console.error('');
+  console.error('Examples:');
+  console.error('  coaudit ~/my-project');
+  console.error('  coaudit owner/repo');
+  console.error('  coaudit https://github.com/owner/repo');
+  process.exit(1);
+}
+
+runAudit(targetDir).catch((err) => {
+  console.error('Audit failed:', err.message);
+  process.exit(1);
+});
