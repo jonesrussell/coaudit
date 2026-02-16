@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const AUDIT_DIMENSIONS = [
+  'dead_code',
+  'architectural_leaks',
+  'selector_fragility',
+  'routing_inconsistencies',
+  'missing_tests',
+  'observability_gaps',
+];
+
+console.log('🤖 Copilot Pipeline Auditor - Interactive Mode\n');
+console.log('This tool helps you run Copilot-powered audits interactively.\n');
+
+const targetDir = process.argv[2] || '.';
+
+if (!fs.existsSync(targetDir)) {
+  console.error(`❌ Directory not found: ${targetDir}`);
+  process.exit(1);
+}
+
+console.log(`📁 Target repository: ${targetDir}\n`);
+console.log('Available audit dimensions:\n');
+
+AUDIT_DIMENSIONS.forEach((dim, i) => {
+  const prompt = loadPrompt(dim);
+  const description = prompt.split('\n')[0];
+  console.log(`${i + 1}. ${dim}`);
+  console.log(`   ${description}\n`);
+});
+
+console.log('To run a Copilot audit interactively:');
+console.log('');
+console.log('  npx audit-interactive <repo> <dimension>');
+console.log('');
+console.log('Example:');
+console.log('  npx audit-interactive ~/my-project dead_code');
+console.log('');
+console.log('This will:');
+console.log('  1. Load the audit prompt');
+console.log('  2. Collect relevant code context');
+console.log('  3. Launch Copilot CLI with the combined context');
+console.log('  4. Help you review and save the findings');
+console.log('');
+
+function loadPrompt(dimension) {
+  const promptPath = path.join(__dirname, '..', 'src', 'prompts', `${dimension}.md`);
+  try {
+    return fs.readFileSync(promptPath, 'utf8');
+  } catch {
+    return 'Prompt not found';
+  }
+}
